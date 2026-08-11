@@ -480,552 +480,565 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
 <script>
   // ----- Real data (from REDCap / inventory export) -----
-  const activities = [
+    const activities = [
     {
       "name": "Sonographer Lunch & Learn",
       "region": "Greater Charlotte",
-      "modality": "Echocardiography",
       "audience": "Sonographer/Technician",
       "activityType": "Lecture/Case-based",
       "cadence": "Weekly",
       "recordType": "Activity",
       "organizer": "Cody Frye, Lindsay Hammond",
       "notes": "Approx. 12 CME credits annually",
-      "isMultiModality": false,
-      "category": "Education"
+      "category": "Education",
+      "modality": "Echocardiography",
+      "isMultiModality": false
     },
     {
       "name": "HCM Hands-On Training",
       "region": "Greater Charlotte",
-      "modality": "Echocardiography",
       "audience": "Sonographer/Technician",
       "activityType": "Hands-on training",
       "cadence": "Monthly",
       "recordType": "Activity",
       "organizer": "Cody Frye, Lindsay Hammond",
       "notes": "Enterprise offering",
-      "isMultiModality": false,
-      "category": "Education"
+      "category": "Education",
+      "modality": "Echocardiography",
+      "isMultiModality": false
     },
     {
       "name": "3D Echo Hands-On Training",
       "region": "Greater Charlotte",
-      "modality": "Echocardiography",
       "audience": "Sonographer/Technician",
       "activityType": "Hands-on training",
       "cadence": "Monthly",
       "recordType": "Activity",
       "organizer": "Cody Frye, Lindsay Hammond",
       "notes": "Enterprise offering",
-      "isMultiModality": false,
-      "category": "Education"
+      "category": "Education",
+      "modality": "Echocardiography",
+      "isMultiModality": false
     },
     {
       "name": "Physician Imaging Teleconference (Echo)",
       "region": "Greater Charlotte",
-      "modality": "Echocardiography",
       "audience": "Physician",
       "activityType": "Discussion",
       "cadence": "Monthly",
       "recordType": "Activity",
       "organizer": "Thomas Johnson",
       "notes": "Sometimes multimodality",
-      "isMultiModality": false,
-      "category": "Physician Education"
+      "category": "Physician Education",
+      "modality": "Echocardiography",
+      "isMultiModality": false
     },
     {
       "name": "Sonographer Onboarding Program",
       "region": "Greater Charlotte",
-      "modality": "Echocardiography",
       "audience": "Sonographer/Technician",
       "activityType": "Lecture/Case-based",
       "cadence": "Ad hoc",
       "recordType": "Activity",
       "organizer": "Lindsay Hammond",
       "notes": "Includes competency validation",
-      "isMultiModality": false,
-      "category": "Onboarding & Competency"
+      "category": "Onboarding & Competency",
+      "modality": "Echocardiography",
+      "isMultiModality": false
     },
     {
       "name": "Forms-Based Quiz Library",
       "region": "Greater Charlotte",
-      "modality": "Echocardiography",
       "audience": "Sonographer/Technician",
       "activityType": "Lecture/Case-based",
       "cadence": "Async",
       "recordType": "Resource",
       "organizer": "Cody Frye ",
       "notes": "Supports onboarding and education",
-      "isMultiModality": false,
-      "category": "Onboarding & Competency"
+      "category": "Onboarding & Competency",
+      "modality": "Echocardiography",
+      "isMultiModality": false
     },
     {
       "name": "Sonographer Peer Review Program",
       "region": "Greater Charlotte",
-      "modality": "Echocardiography",
       "audience": "Sonographer/Technician",
       "activityType": "Discussion",
       "cadence": "Async",
       "recordType": "Activity",
       "organizer": "Cody Frye",
       "notes": "Goal 1,000 reviews/year",
-      "isMultiModality": false,
-      "category": "Quality"
+      "category": "Quality",
+      "modality": "Echocardiography",
+      "isMultiModality": false
     },
     {
       "name": "Site-Based Case Studies / QI Reviews",
       "region": "Greater Charlotte",
-      "modality": "Echocardiography",
       "audience": "Multi-audience",
       "activityType": "Discussion",
       "cadence": "Ad hoc",
       "recordType": "Activity",
       "organizer": "Lead Sonographers",
       "notes": "Locally led",
-      "isMultiModality": false,
-      "category": "Quality"
+      "category": "Quality",
+      "modality": "Echocardiography",
+      "isMultiModality": false
     },
     {
       "name": "Sonographer Resource Page",
       "region": "Greater Charlotte",
-      "modality": "Echocardiography",
       "audience": "Sonographer/Technician",
       "activityType": "Lecture/Case-based",
       "cadence": "Async",
       "recordType": "Resource",
       "organizer": "Cody Frye",
       "notes": "Parent resource",
-      "isMultiModality": false,
-      "category": "Clinical Resources"
+      "category": "Clinical Resources",
+      "modality": "Echocardiography",
+      "isMultiModality": false
     },
     {
       "name": "Protocol Library",
       "region": "Greater Charlotte",
-      "modality": "Echocardiography",
       "audience": "Sonographer/Technician",
       "activityType": "Lecture/Case-based",
       "cadence": "Async",
       "recordType": "Resource",
       "organizer": "Cody Frye",
       "notes": "Contained within resource page",
-      "isMultiModality": false,
-      "category": "Clinical Resources"
+      "category": "Clinical Resources",
+      "modality": "Echocardiography",
+      "isMultiModality": false
     },
     {
       "name": "Quick Reference Video Library",
       "region": "Greater Charlotte",
-      "modality": "Echocardiography",
       "audience": "Sonographer/Technician",
       "activityType": "Lecture/Case-based",
       "cadence": "Async",
       "recordType": "Resource",
       "organizer": "Cody Frye",
       "notes": "Contained within resource page",
-      "isMultiModality": false,
-      "category": "Education Resources"
+      "category": "Education Resources",
+      "modality": "Echocardiography",
+      "isMultiModality": false
     },
     {
       "name": "Reference Deck",
       "region": "Greater Charlotte",
-      "modality": "Echocardiography",
       "audience": "Multi-audience",
       "activityType": "Lecture/Case-based",
       "cadence": "Async",
       "recordType": "Resource",
       "organizer": "Cody Frye",
       "notes": "PDF on the Resource Page",
-      "isMultiModality": false,
-      "category": "Education Resources"
+      "category": "Education Resources",
+      "modality": "Echocardiography",
+      "isMultiModality": false
     },
     {
       "name": "POCUS Training Module",
       "region": "Greater Charlotte",
-      "modality": "Echocardiography",
       "audience": "Advanced Practitioner",
       "activityType": "Lecture/Case-based",
       "cadence": "Async",
       "recordType": "Resource",
       "organizer": "Cody Frye",
       "notes": "",
-      "isMultiModality": false,
-      "category": "Education Resources"
+      "category": "Education Resources",
+      "modality": "Echocardiography",
+      "isMultiModality": false
     },
     {
       "name": "SHVI Cardiovascular Grand Rounds",
       "region": "Greater Charlotte",
-      "modality": "Multi-modality",
       "audience": "Multi-audience",
       "activityType": "Lecture/Case-based",
       "cadence": "Bi-weekly",
       "recordType": "Activity",
       "organizer": "Jennifer Rogers",
       "notes": "Runs September-June; 2-3 imaging-specific session per year",
-      "isMultiModality": true,
-      "category": "Education"
+      "category": "Education",
+      "modality": "Multi-modality",
+      "isMultiModality": true
     },
     {
       "name": "Atrium Health Cardiovascular Grand Rounds",
       "region": "Greater Charlotte",
-      "modality": "Multi-modality",
       "audience": "Multi-audience",
       "activityType": "Lecture/Case-based",
       "cadence": "Bi-weekly",
       "recordType": "Activity",
       "organizer": "Jennifer Rogers",
       "notes": "Runs September-June; 2-3 imaging-specific session per year; joint program with Winston-Salem",
-      "isMultiModality": true,
-      "category": "Education"
+      "category": "Education",
+      "modality": "Multi-modality",
+      "isMultiModality": true
     },
     {
       "name": "Advocate Health Cardiovascular Grand Rounds",
       "region": "Greater Charlotte",
-      "modality": "Multi-modality",
       "audience": "Multi-audience",
       "activityType": "Lecture/Case-based",
       "cadence": "Yearly",
       "recordType": "Activity",
       "organizer": "Jennifer Rogers",
       "notes": "Imaging topics vary; enterprise-wide conference",
-      "isMultiModality": true,
-      "category": "Education"
+      "category": "Education",
+      "modality": "Multi-modality",
+      "isMultiModality": true
     },
     {
       "name": "SHVI Cardiovascular Symposium",
       "region": "Greater Charlotte",
-      "modality": "Multi-modality",
       "audience": "Multi-audience",
       "activityType": "Lecture/Case-based",
       "cadence": "Yearly",
       "recordType": "Activity",
       "organizer": "Jennifer Rogers",
       "notes": "Imaging topics vary",
-      "isMultiModality": true,
-      "category": "Education"
+      "category": "Education",
+      "modality": "Multi-modality",
+      "isMultiModality": true
     },
     {
       "name": "The Dowd Foundation Center for Cardio-Oncology Symposium",
       "region": "Greater Charlotte",
-      "modality": "Multi-modality",
       "audience": "Multi-audience",
       "activityType": "Lecture/Case-based",
       "cadence": "Yearly",
       "recordType": "Activity",
       "organizer": "Jennifer Rogers",
       "notes": "Imaging topics vary",
-      "isMultiModality": true,
-      "category": "Education"
+      "category": "Education",
+      "modality": "Multi-modality",
+      "isMultiModality": true
     },
     {
       "name": "Sonographer Lunch & Learn",
       "region": "Georgia",
-      "modality": "Echocardiography",
       "audience": "Sonographer/Technician",
       "activityType": "Lecture/Case-based",
       "cadence": "Monthly",
       "recordType": "Activity",
       "organizer": "Rebecca Phillips Navicent",
       "notes": "Approx. 12 CME credits annually",
-      "isMultiModality": false,
-      "category": "Education"
+      "category": "Education",
+      "modality": "Echocardiography",
+      "isMultiModality": false
     },
     {
       "name": "Sonographer Lunch & Learn",
       "region": "Georgia",
-      "modality": "Echocardiography",
       "audience": "Sonographer/Technician",
       "activityType": "Lecture/Case-based",
       "cadence": "Bi-weekly",
       "recordType": "Activity",
       "organizer": " Rebecca Phillips Navicent",
       "notes": "Rep brings lunch and educates staff over product, ie Definity",
-      "isMultiModality": false,
-      "category": "Education "
+      "category": "Education ",
+      "modality": "Echocardiography",
+      "isMultiModality": false
     },
     {
       "name": "Sonographer CME Conf",
       "region": "Wake Forest",
-      "modality": "Echocardiography",
       "audience": "Sonographer/Technician",
       "activityType": "Lecture/Case-based",
       "cadence": "Monthly",
       "recordType": "Activity",
       "organizer": "Pam Burgess",
       "notes": "Covers Wake Region",
-      "isMultiModality": false,
-      "category": "Education"
+      "category": "Education",
+      "modality": "Echocardiography",
+      "isMultiModality": false
     },
     {
       "name": "Annual Atrium Health Echo Symposium",
       "region": "Wake Forest",
-      "modality": "Echocardiography",
       "audience": "Sonographer/Technician",
       "activityType": "Lecture/Case-based",
       "cadence": "Yearly",
       "recordType": "Activity",
       "organizer": "Pam Burgess",
       "notes": "1 day Symposium (8hrs.CME) with various speakers/topics with hands on scanning opportunities and vendor exhibit hall",
-      "isMultiModality": false,
-      "category": "Education"
+      "category": "Education",
+      "modality": "Echocardiography",
+      "isMultiModality": false
     },
     {
       "name": "Basic to Advanced Echo",
       "region": "Wake Forest",
-      "modality": "Echocardiography",
       "audience": "Multi-audience",
       "activityType": "Lecture/Case-based",
       "cadence": "Yearly",
       "recordType": "Activity",
       "organizer": "Pam Burgess",
       "notes": "Collaboration with Mayo Clinic Location rotates between Asheville, NC & Hilton Head, SC",
-      "isMultiModality": false,
-      "category": "Education"
+      "category": "Education",
+      "modality": "Echocardiography",
+      "isMultiModality": false
     },
     {
       "name": "Protocol Library",
       "region": "Greater Charlotte",
-      "modality": "Echocardiography",
       "audience": "Sonographer/Technician",
       "activityType": "Lecture/Case-based",
       "cadence": "Async",
       "recordType": "Resource",
       "organizer": "Shelby Brown",
       "notes": "",
-      "isMultiModality": false,
-      "category": "Clinical Resources"
+      "category": "Clinical Resources",
+      "modality": "Echocardiography",
+      "isMultiModality": false
     },
     {
       "name": "Red Cap Quality Committee Reviews",
       "region": "Wake Forest",
-      "modality": "Echocardiography",
       "audience": "Multi-audience",
       "activityType": "Discussion",
       "cadence": "Async",
       "recordType": "Activity",
       "organizer": "Pam Burgess, Angie Sullivan (WF)",
       "notes": "Collaboration with committee of four echocardiologists in Wake region, educator and manager. Engage in teachable moments/mentoring as needed. Provide close loop communication with reporter. ",
-      "isMultiModality": false,
-      "category": "Quality"
+      "category": "Quality",
+      "modality": "Echocardiography",
+      "isMultiModality": false
     },
     {
       "name": "Case based Echo knowledge assesment",
       "region": "Greater Charlotte",
-      "modality": "Echocardiography",
       "audience": "Physician",
-      "activityType": "Discussion",
+      "activityType": "Lecture/Case-based",
       "cadence": "Monthly",
       "recordType": "Activity",
       "organizer": "Thomas Johnson",
       "notes": "",
-      "isMultiModality": false,
-      "category": "Education"
+      "category": "Education",
+      "modality": "Echocardiography",
+      "isMultiModality": false
     },
     {
       "name": "Nuclear Fellow Case Conference",
       "region": "Wake Forest",
-      "modality": "Nuclear",
       "audience": "Trainees/Students",
       "activityType": "Discussion",
       "cadence": "Quarterly",
       "recordType": "Activity",
       "organizer": "Mohammed Elsadany (WF)",
       "notes": "Modification in 2026-2027 compared to 2025 where they did monthly case conferences for nuclear + cath correlates",
-      "isMultiModality": false,
-      "category": "Education"
+      "category": "Education",
+      "modality": "Nuclear",
+      "isMultiModality": false
     },
     {
       "name": "Nuclear Didactics",
       "region": "Wake Forest",
-      "modality": "Nuclear",
       "audience": "Trainees/Students",
       "activityType": "Lecture/Case-based",
       "cadence": "Quarterly",
       "recordType": "Activity",
       "organizer": "Mohammed Elsadany",
       "notes": "3 talks on ischemia and 1 on non-ischemic nuclear imaging",
-      "isMultiModality": false,
-      "category": "Education"
+      "category": "Education",
+      "modality": "Nuclear",
+      "isMultiModality": false
     },
     {
       "name": "CT and CMR lectures series",
       "region": "Wake Forest",
-      "modality": "Multi-modality",
       "audience": "Multi-audience",
       "activityType": "Lecture/Case-based",
       "cadence": "Weekly",
       "recordType": "Activity",
       "organizer": "Carolyn Park and Brandon Stacey/(Tammy Davis admin coordinator) (WF)",
       "notes": "Application through Wake Forest GME office every summer and funding supported by cardiology dept and CME credits provided; Lecturers include cardiology and radiology faculty. Incorporated structural heart team meetings to count for CME monthly as well. Very labor intensive on carolyn's end",
-      "isMultiModality": true,
-      "category": "Education"
+      "category": "Education",
+      "modality": "CT",
+      "isMultiModality": true
+    },
+    {
+      "name": "CT and CMR lectures series",
+      "region": "Wake Forest",
+      "audience": "Multi-audience",
+      "activityType": "Lecture/Case-based",
+      "cadence": "Weekly",
+      "recordType": "Activity",
+      "organizer": "Carolyn Park and Brandon Stacey/(Tammy Davis admin coordinator) (WF)",
+      "notes": "Application through Wake Forest GME office every summer and funding supported by cardiology dept and CME credits provided; Lecturers include cardiology and radiology faculty. Incorporated structural heart team meetings to count for CME monthly as well. Very labor intensive on carolyn's end",
+      "category": "Education",
+      "modality": "CMR",
+      "isMultiModality": true
     },
     {
       "name": "Echo lectures",
       "region": "Wake Forest",
-      "modality": "Echocardiography",
       "audience": "Trainees/Students",
       "activityType": "Lecture/Case-based",
       "cadence": "Weekly",
       "recordType": "Activity",
       "organizer": "Karl Richardson (WF)",
       "notes": "This activity falls under same application as the Multimodality conference through GME office",
-      "isMultiModality": false,
-      "category": "Education"
+      "category": "Education",
+      "modality": "Echocardiography",
+      "isMultiModality": false
     },
     {
       "name": "Faculty Echo QI meeting",
       "region": "Wake Forest",
-      "modality": "Echocardiography",
       "audience": "Physician",
-      "activityType": "Lecture/Case-based",
+      "activityType": "Discussion",
       "cadence": "Quarterly",
       "recordType": "Activity",
       "organizer": "Ahmed Elzanaty/Karl Richardson (WF)",
       "notes": "Dr. Elzanaty has been organizing this since 2026 and makes use of our echo redcap to find cases",
-      "isMultiModality": false,
-      "category": "Education"
+      "category": "Education",
+      "modality": "Echocardiography",
+      "isMultiModality": false
     },
     {
       "name": "Echo Redcap Cases",
       "region": "Wake Forest",
-      "modality": "Echocardiography",
       "audience": "Multi-audience",
       "activityType": "Lecture/Case-based",
       "cadence": "Async",
       "recordType": "Resource",
       "organizer": "Karl Richardson/Pam Burgess/Angie Sullivan/Ahmed Elzanaty (WF)",
       "notes": "https://redcap.link/echocaselog ",
-      "isMultiModality": false,
-      "category": "Quality"
+      "category": "Quality",
+      "modality": "Echocardiography",
+      "isMultiModality": false
     },
     {
       "name": "Nuclear 80 hour course and ASNC board review prep",
       "region": "Wake Forest",
-      "modality": "Nuclear",
       "audience": "Trainees/Students",
       "activityType": "Lecture/Case-based",
       "cadence": "Yearly",
       "recordType": "Resource",
       "organizer": "Sujethra Vasu and Fellowship (Emily Maccaull fellowship coordinator) (WF)",
       "notes": " funding is through cardiology dept",
-      "isMultiModality": false,
-      "category": "Education"
+      "category": "Education",
+      "modality": "Nuclear",
+      "isMultiModality": false
     },
     {
       "name": "Nuclear cardiac lectures",
       "region": "Wake Forest",
-      "modality": "Nuclear",
       "audience": "Trainees/Students",
       "activityType": "Lecture/Case-based",
       "cadence": "Yearly",
       "recordType": "Activity",
       "organizer": "Radiology -Bradley Young Aleksandra Krokhmal (WF)",
       "notes": "mostly for radiology fellows although cardiology fellows welcome to attend",
-      "isMultiModality": false,
-      "category": "Education"
+      "category": "Education",
+      "modality": "Nuclear",
+      "isMultiModality": false
     },
     {
       "name": "textbooks",
       "region": "Wake Forest",
-      "modality": "Multi-modality",
       "audience": "Trainees/Students",
       "activityType": "Lecture/Case-based",
       "cadence": "Async",
       "recordType": "Resource",
       "organizer": "Carolyn Park (WF)",
       "notes": "Increasingly, nobody likes to read. I would bring the textbook and open it to a chapter for the imaging fellow and it would be untouched the whole month!",
-      "isMultiModality": true,
-      "category": "Education"
+      "category": "Education",
+      "modality": "Multi-modality",
+      "isMultiModality": true
     },
     {
       "name": "CT case powerpoint for onboarding",
       "region": "Wake Forest",
-      "modality": "CT",
       "audience": "Physician",
       "activityType": "Lecture/Case-based",
       "cadence": "Async",
       "recordType": "Resource",
       "organizer": "Carolyn Park (WF)",
       "notes": "Shared in Onedrive (advocatehealth) - very high yield cases. And then I actually reviewed the cases in person together. I used this for 3 new readers as part of onboarding and shared it with our satellite (High Point location) new-er readers and received good feedback",
-      "isMultiModality": false,
-      "category": "Education"
+      "category": "Education",
+      "modality": "CT",
+      "isMultiModality": false
     },
     {
       "name": "PACS Public Folder for CT and CMR cases",
       "region": "Wake Forest",
-      "modality": "Multi-modality",
       "audience": "Multi-audience",
       "activityType": "Lecture/Case-based",
       "cadence": "Async",
       "recordType": "Resource",
       "organizer": "Carolyn Park (WF)",
       "notes": "Cardiac CT, Cardiac MRI, and separate CT cath correlate folders. Carolyn set up the folders in 2024 and accumulated several cases and she is the main person keeping up with it. I refer people to this folder if they are giving talks or needed to see a specific pathology",
-      "isMultiModality": true,
-      "category": "Education"
+      "category": "Education",
+      "modality": "Multi-modality",
+      "isMultiModality": true
     },
     {
       "name": "Cardiothoracic Imaging Lecture",
       "region": "Wake Forest",
-      "modality": "Multi-modality",
       "audience": "Multi-audience",
       "activityType": "Lecture/Case-based",
       "cadence": "Yearly",
       "recordType": "Activity",
       "organizer": "Carolyn Park (WF)",
       "notes": "past year 2025-2026 the two talks carolyn gave was multimodality anatomy quiz for the CT surgery fellows and then cardiac viability",
-      "isMultiModality": true,
-      "category": "Education"
+      "category": "Education",
+      "modality": "Multi-modality",
+      "isMultiModality": true
     },
     {
       "name": "Lunch and Learn for cardiac APPs",
       "region": "Wake Forest",
-      "modality": "Multi-modality",
       "audience": "Advanced Practitioner",
       "activityType": "Lecture/Case-based",
       "cadence": "Quarterly",
       "recordType": "Activity",
       "organizer": "Jamie Dietrich (WF)",
       "notes": "lectures are recorded on teams and powerpoints generally shared on OneDrive. For example carolyn's APP talk on ischemia imaging is shared on onedrive",
-      "isMultiModality": true,
-      "category": "Education"
+      "category": "Education",
+      "modality": "Multi-modality",
+      "isMultiModality": true
     },
     {
       "name": "Industry sponsored coronary CT lectures",
       "region": "Wake Forest",
-      "modality": "CT",
       "audience": "Multi-audience",
       "activityType": "Lecture/Case-based",
       "cadence": "Yearly",
       "recordType": "Activity",
       "organizer": "Heartflow (WF)",
       "notes": "at wake trying to limit industry sponsored talks but occasionally useful",
-      "isMultiModality": false,
-      "category": "Education"
+      "category": "Education",
+      "modality": "CT",
+      "isMultiModality": false
     },
     {
       "name": "CT Tech Foundations of Advanced Cardiac Imaging",
       "region": "Greater Charlotte",
-      "modality": "CT",
       "audience": "Sonographer/Technician",
       "activityType": "Lecture/Case-based",
       "cadence": "Async",
       "recordType": "Resource",
       "organizer": "Brennen Johnston (GCM)",
       "notes": "CT Tech Foundations of Advanced Cardiac Imaging - Workday",
-      "isMultiModality": false,
-      "category": "Education"
+      "category": "Education",
+      "modality": "CT",
+      "isMultiModality": false
     },
     {
       "name": "Advanced Cardiac Imaging Teams/Sharepoint site",
       "region": "Greater Charlotte",
-      "modality": "Multi-modality",
       "audience": "Sonographer/Technician",
       "activityType": "Lecture/Case-based",
       "cadence": "Async",
       "recordType": "Resource",
       "organizer": "Brennen Johnston (GCM)",
       "notes": "",
-      "isMultiModality": true,
-      "category": "Education"
+      "category": "Education",
+      "modality": "Multi-modality",
+      "isMultiModality": true
     }
   ];
 
@@ -1066,13 +1079,16 @@
     }
     return true;
   };
-  const filtered = () => activities.filter(a =>
+  const baseFiltered = () => activities.filter(a =>
     (filterModality === 'All' || a.modality === filterModality) &&
     (filterAudience === 'All' || a.audience === filterAudience) &&
     (filterCadence === 'All' || a.cadence === filterCadence) &&
     (filterActivityType === 'All' || a.activityType === filterActivityType) &&
     (filterRecordType === 'All' || a.recordType === filterRecordType) &&
     matchesProfileLens(a.region)
+  );
+  const filtered = () => baseFiltered().filter(a =>
+    selectedRegion === null || a.region === selectedRegion
   );
 
   // ----- Map setup -----
@@ -1117,7 +1133,7 @@
   }
   function renderBubbles() {
     if (!topoReady) return;
-    const data = filtered();
+    const data = baseFiltered();
     const regions = regionOrder.map(name => ({
       name, pos: bubblePos(name),
       count: data.filter(a => a.region === name).length,
@@ -1190,7 +1206,7 @@
 
   // ----- Summary metrics -----
   function renderSummary() {
-    const d = filtered();
+    const d = baseFiltered();
     document.getElementById('summary').innerHTML = `
       <div class="metric"><div class="metric-label">Total records</div><div class="metric-value">${d.length}</div></div>
       <div class="metric"><div class="metric-label">Echo</div><div class="metric-value">${d.filter(a => a.modality === 'Echocardiography').length}</div></div>
@@ -1203,7 +1219,7 @@
 
   // ----- Region cards -----
   function renderCards() {
-    const d = filtered();
+    const d = baseFiltered();
     const html = regionOrder.map(name => {
       const recs = d.filter(a => a.region === name);
       const total = recs.length;
@@ -1218,10 +1234,17 @@
       const badges = Object.keys(profileLabels).map(k =>
         `<span class="profile-badge${profile[k] ? '' : ' off'}">${profileLabels[k]}</span>`
       ).join('');
+      const breakdown = [
+        echo  ? `Echo ${echo}`   : '',
+        ct    ? `CT ${ct}`       : '',
+        cmr   ? `CMR ${cmr}`     : '',
+        nuc   ? `Nuc ${nuc}`     : '',
+        multi ? `Multi ${multi}` : '',
+      ].filter(Boolean).join(' · ') || 'No matches';
       return `<div class="region-card ${selCls} ${dimCls}" data-region="${name}">
         <div class="region-card-name">${name}</div>
         <div class="region-card-total">${total}</div>
-        <div class="region-card-detail">Echo ${echo} · CT ${ct} · CMR ${cmr} · Nuc ${nuc} · Multi ${multi}</div>
+        <div class="region-card-detail">${breakdown}</div>
         ${regionalProfile[name].noData ? '<div style="font-size:11px;color:var(--text-tertiary);margin-top:4px;">No data submitted yet</div>' : ''}
         <div class="profile-badges">${badges}</div>
       </div>`;
