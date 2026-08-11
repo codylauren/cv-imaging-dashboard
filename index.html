@@ -1,0 +1,1378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CV Imaging Education — Regional Dashboard</title>
+<style>
+  :root {
+    --navy: #1B3B5E;
+    --teal: #0C8C6E;
+    --teal-50: #E1F5EE;
+    --teal-100: #9FE1CB;
+    --teal-200: #5DCAA5;
+    --teal-400: #1D9E75;
+    --teal-600: #0F6E56;
+    --teal-800: #085041;
+    --teal-900: #04342C;
+    --amber-50: #FAEEDA;
+    --amber-100: #FAC775;
+    --amber-800: #854F0B;
+    --gray-50: #F1EFE8;
+    --gray-100: #D3D1C7;
+    --gray-400: #888780;
+    --gray-600: #5F5E5A;
+    --gray-800: #2C2C2A;
+    --text-primary: #1f1f1d;
+    --text-secondary: #6b6a64;
+    --text-tertiary: #98968e;
+    --bg-primary: #ffffff;
+    --bg-secondary: #f7f6f1;
+    --bg-tertiary: #efeee9;
+    --border-tertiary: rgba(0,0,0,0.10);
+    --border-secondary: rgba(0,0,0,0.18);
+    --border-info: #4A8FD9;
+    --bg-info: #E6F1FB;
+    --text-info: #185FA5;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    margin: 0;
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    line-height: 1.5;
+  }
+  .page {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 32px 24px 48px;
+  }
+  header {
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 0.5px solid var(--border-tertiary);
+  }
+  h1 {
+    font-family: Georgia, serif;
+    font-size: 26px;
+    font-weight: 500;
+    color: var(--navy);
+    margin: 0 0 4px;
+  }
+  .subtitle {
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-style: italic;
+  }
+  .section {
+    background: var(--bg-primary);
+    border: 0.5px solid var(--border-tertiary);
+    border-radius: var(--radius-lg);
+    padding: 20px 22px;
+    margin-bottom: 20px;
+  }
+  .section-title {
+    font-family: Georgia, serif;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--navy);
+    margin: 0 0 12px;
+  }
+  .filter-label {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+  .filter-row {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+  }
+  .chip {
+    padding: 5px 12px;
+    font-size: 13px;
+    border: 0.5px solid var(--border-tertiary);
+    border-radius: var(--radius-md);
+    background: transparent;
+    cursor: pointer;
+    color: var(--text-primary);
+    font-family: inherit;
+    transition: background 0.12s, border-color 0.12s;
+  }
+  .chip:hover { background: var(--bg-secondary); }
+  .chip.active {
+    background: var(--teal);
+    color: white;
+    border-color: var(--teal-600);
+  }
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+  .metric {
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+    padding: 10px 14px;
+  }
+  .metric-label {
+    font-size: 11px;
+    color: var(--text-secondary);
+    margin-bottom: 2px;
+  }
+  .metric-value {
+    font-size: 22px;
+    font-weight: 500;
+  }
+  #map { width: 100%; margin-bottom: 18px; }
+  .region-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px;
+  }
+  .region-card {
+    background: var(--bg-primary);
+    border: 0.5px solid var(--border-tertiary);
+    border-radius: var(--radius-lg);
+    padding: 12px 14px;
+    cursor: pointer;
+  }
+  .region-card:hover { background: var(--bg-secondary); }
+  .region-card.selected {
+    border-color: var(--border-info);
+    background: var(--bg-info);
+  }
+  .region-card-name {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: 2px;
+  }
+  .region-card-total {
+    font-size: 22px;
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+  .region-card-detail {
+    font-size: 12px;
+    color: var(--text-secondary);
+  }
+  .gap-grid {
+    margin-bottom: 22px;
+  }
+  .gap-modality-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--navy);
+    margin: 18px 0 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .gap-modality-title:first-child { margin-top: 0; }
+  table.gap {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 3px;
+    font-size: 13px;
+  }
+  table.gap th {
+    font-weight: 500;
+    font-size: 11px;
+    color: var(--text-secondary);
+    padding: 4px 6px;
+    text-align: center;
+    background: transparent;
+  }
+  table.gap th.region {
+    text-align: left;
+    color: var(--text-primary);
+    font-size: 13px;
+    font-weight: 500;
+    padding-left: 8px;
+  }
+  table.gap td {
+    text-align: center;
+    padding: 8px 6px;
+    border-radius: var(--radius-md);
+    font-weight: 500;
+    font-size: 13px;
+  }
+  td.gap-0 {
+    background: var(--amber-50);
+    color: var(--amber-800);
+  }
+  td.gap-low {
+    background: var(--teal-50);
+    color: var(--teal-800);
+  }
+  td.gap-med {
+    background: var(--teal-100);
+    color: var(--teal-900);
+  }
+  td.gap-high {
+    background: var(--teal-400);
+    color: white;
+  }
+  td.total-cell {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+  .legend {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-top: 8px;
+    align-items: center;
+  }
+  .legend-swatch {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    margin-right: 4px;
+    vertical-align: -2px;
+  }
+  .note {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    margin-top: 6px;
+  }
+  .gap-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .modality-tabs {
+    display: flex;
+    gap: 4px;
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-md);
+    padding: 3px;
+  }
+  .mod-tab {
+    padding: 5px 14px;
+    font-size: 13px;
+    border: 0;
+    border-radius: 5px;
+    background: transparent;
+    cursor: pointer;
+    color: var(--text-secondary);
+    font-family: inherit;
+    font-weight: 500;
+  }
+  .mod-tab.active {
+    background: white;
+    color: var(--navy);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+  }
+  .threshold-control {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--text-secondary);
+  }
+  .threshold-control input[type="range"] {
+    width: 110px;
+    accent-color: var(--teal-400);
+  }
+  #threshold-value {
+    font-weight: 500;
+    color: var(--text-primary);
+    min-width: 14px;
+    text-align: right;
+  }
+  .profile-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 8px;
+  }
+  .profile-badge {
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 4px;
+    background: var(--teal-50);
+    color: var(--teal-800);
+    font-weight: 500;
+  }
+  .profile-badge.off {
+    background: var(--bg-tertiary);
+    color: var(--text-tertiary);
+    opacity: 0.55;
+  }
+  .region-card.dimmed {
+    opacity: 0.35;
+  }
+  .bubble.dimmed {
+    opacity: 0.25;
+  }
+  .details-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .details-table th {
+    text-align: left;
+    padding: 8px 10px;
+    background: var(--bg-secondary);
+    font-weight: 500;
+    color: var(--text-secondary);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-bottom: 0.5px solid var(--border-tertiary);
+  }
+  .details-table td {
+    padding: 8px 10px;
+    border-bottom: 0.5px solid var(--border-tertiary);
+  }
+  .details-table tr:hover td {
+    background: var(--bg-secondary);
+  }
+  .details-empty {
+    padding: 20px;
+    text-align: center;
+    color: var(--text-tertiary);
+    font-size: 13px;
+  }
+  .details-arrow {
+    transition: transform 0.15s;
+    display: inline-block;
+    margin-right: 6px;
+  }
+  .details-arrow.open { transform: rotate(90deg); }
+  footer {
+    margin-top: 16px;
+    padding-top: 12px;
+    font-size: 11px;
+    color: var(--text-tertiary);
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+<header>
+  <h1>Cardiovascular Imaging Education — Regional Dashboard</h1>
+  <div class="subtitle">Sanger Heart &amp; Vascular Institute · Advocate Health Enterprise · IL &amp; WI pending submission</div>
+</header>
+
+<div class="section">
+  <div class="section-title">Where is education happening?</div>
+
+  <div class="filter-label">Modality</div>
+  <div class="filter-row" id="modality-chips">
+    <button class="chip active" data-filter="modality" data-value="All">All</button>
+    <button class="chip" data-filter="modality" data-value="Echocardiography">Echo</button>
+    <button class="chip" data-filter="modality" data-value="CT">CT</button>
+    <button class="chip" data-filter="modality" data-value="CMR">CMR</button>
+    <button class="chip" data-filter="modality" data-value="Nuclear">Nuclear</button>
+    <button class="chip" data-filter="modality" data-value="Multi-modality">Multi-modality ⚠</button>
+  </div>
+  <div class="filter-label">Audience</div>
+  <div class="filter-row" id="audience-chips">
+    <button class="chip active" data-filter="audience" data-value="All">All</button>
+    <button class="chip" data-filter="audience" data-value="Sonographer/Technician">Sonographer/Tech</button>
+    <button class="chip" data-filter="audience" data-value="Nurse">Nurse</button>
+    <button class="chip" data-filter="audience" data-value="Physician">Physician</button>
+    <button class="chip" data-filter="audience" data-value="Advanced Practitioner">APP</button>
+    <button class="chip" data-filter="audience" data-value="Trainees/Students">Trainees</button>
+    <button class="chip" data-filter="audience" data-value="Multi-audience">Multi</button>
+  </div>
+  <div class="filter-label">Cadence</div>
+  <div class="filter-row" id="cadence-chips">
+    <button class="chip active" data-filter="cadence" data-value="All">All</button>
+    <button class="chip" data-filter="cadence" data-value="Weekly">Weekly</button>
+    <button class="chip" data-filter="cadence" data-value="Bi-weekly">Bi-weekly</button>
+    <button class="chip" data-filter="cadence" data-value="Monthly">Monthly</button>
+    <button class="chip" data-filter="cadence" data-value="Quarterly">Quarterly</button>
+    <button class="chip" data-filter="cadence" data-value="Yearly">Yearly</button>
+    <button class="chip" data-filter="cadence" data-value="Async">Async</button>
+    <button class="chip" data-filter="cadence" data-value="Ad hoc">Ad hoc</button>
+  </div>
+  <div class="filter-label">Activity type</div>
+  <div class="filter-row" id="activity-type-chips">
+    <button class="chip active" data-filter="activityType" data-value="All">All</button>
+    <button class="chip" data-filter="activityType" data-value="Lecture/Case-based">Lecture / Case-based</button>
+    <button class="chip" data-filter="activityType" data-value="Hands-on training">Hands-on training</button>
+    <button class="chip" data-filter="activityType" data-value="Discussion">Discussion</button>
+  </div>
+  <div class="filter-label">Record type</div>
+  <div class="filter-row" id="record-type-chips">
+    <button class="chip active" data-filter="recordType" data-value="All">All</button>
+    <button class="chip" data-filter="recordType" data-value="Activity">Activities</button>
+    <button class="chip" data-filter="recordType" data-value="Resource">Resources</button>
+  </div>
+  <div class="filter-label">Profile lens <span style="color: var(--text-tertiary); font-weight: 400;">— toggle to dim regions that don't match</span></div>
+  <div class="filter-row" id="profile-chips">
+    <button class="chip" data-profile="school">Has school</button>
+    <button class="chip" data-profile="students">Hosts students</button>
+    <button class="chip" data-profile="leadSono">Has lead sono</button>
+    <button class="chip" data-profile="educator">Has educator</button>
+    <button class="chip" data-profile="onboarding">Offers onboarding</button>
+  </div>
+
+  <div class="summary-grid" id="summary"></div>
+
+  <div id="map"></div>
+
+  <div class="region-cards" id="region-cards"></div>
+
+  <p class="note">Wake Forest bubble displaced northwest with a leader line back to its true location (central NC) so it doesn't crowd Charlotte. The small teal dot marks the real position.</p>
+</div>
+
+<div class="section">
+  <div class="section-title">Where are the gaps?</div>
+  <div class="gap-controls">
+    <div class="modality-tabs" id="modality-tabs">
+      <button class="mod-tab active" data-mod="Echocardiography">Echo</button>
+      <button class="mod-tab" data-mod="CT">CT</button>
+      <button class="mod-tab" data-mod="CMR">CMR</button>
+      <button class="mod-tab" data-mod="Nuclear">Nuclear</button>
+      <button class="mod-tab" data-mod="Multi-modality">Multi ⚠</button>
+    </div>
+    <div class="threshold-control">
+      <label for="threshold-slider">Highlight gaps at or below:</label>
+      <input type="range" id="threshold-slider" min="0" max="5" value="0" step="1">
+      <span id="threshold-value">0</span>
+    </div>
+  </div>
+  <div id="gap-grid" class="gap-grid"></div>
+  <div class="legend">
+    <span><span class="legend-swatch" style="background: var(--amber-50);"></span>at or below threshold</span>
+    <span><span class="legend-swatch" style="background: var(--teal-50);"></span>above threshold</span>
+    <span style="margin-left: auto; color: var(--text-tertiary);">Reacts to filters above</span>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title" id="details-toggle" style="cursor: pointer; display: flex; align-items: center; justify-content: space-between;">
+    <span>Show details</span>
+    <span id="details-count" style="font-size: 13px; color: var(--text-secondary); font-weight: 400;"></span>
+  </div>
+  <div id="details-container" style="display: none; margin-top: 12px;">
+    <div style="overflow-x: auto;">
+      <table class="details-table" id="details-table"></table>
+    </div>
+  </div>
+</div>
+
+<footer>
+  Greater Charlotte · Wake Forest · Georgia data loaded · Illinois &amp; Wisconsin pending
+</footer>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
+<script>
+  // ----- Real data (from REDCap / inventory export) -----
+  const activities = [
+    {
+      "name": "Sonographer Lunch & Learn",
+      "region": "Greater Charlotte",
+      "modality": "Echocardiography",
+      "audience": "Sonographer/Technician",
+      "activityType": "Lecture/Case-based",
+      "cadence": "Weekly",
+      "recordType": "Activity",
+      "organizer": "Cody Frye, Lindsay Hammond",
+      "notes": "Approx. 12 CME credits annually",
+      "isMultiModality": false,
+      "category": "Education"
+    },
+    {
+      "name": "HCM Hands-On Training",
+      "region": "Greater Charlotte",
+      "modality": "Echocardiography",
+      "audience": "Sonographer/Technician",
+      "activityType": "Hands-on training",
+      "cadence": "Monthly",
+      "recordType": "Activity",
+      "organizer": "Cody Frye, Lindsay Hammond",
+      "notes": "Enterprise offering",
+      "isMultiModality": false,
+      "category": "Education"
+    },
+    {
+      "name": "3D Echo Hands-On Training",
+      "region": "Greater Charlotte",
+      "modality": "Echocardiography",
+      "audience": "Sonographer/Technician",
+      "activityType": "Hands-on training",
+      "cadence": "Monthly",
+      "recordType": "Activity",
+      "organizer": "Cody Frye, Lindsay Hammond",
+      "notes": "Enterprise offering",
+      "isMultiModality": false,
+      "category": "Education"
+    },
+    {
+      "name": "Physician Imaging Teleconference (Echo)",
+      "region": "Greater Charlotte",
+      "modality": "Echocardiography",
+      "audience": "Physician",
+      "activityType": "Discussion",
+      "cadence": "Monthly",
+      "recordType": "Activity",
+      "organizer": "Thomas Johnson",
+      "notes": "Sometimes multimodality",
+      "isMultiModality": false,
+      "category": "Physician Education"
+    },
+    {
+      "name": "Sonographer Onboarding Program",
+      "region": "Greater Charlotte",
+      "modality": "Echocardiography",
+      "audience": "Sonographer/Technician",
+      "activityType": "Lecture/Case-based",
+      "cadence": "Ad hoc",
+      "recordType": "Activity",
+      "organizer": "Lindsay Hammond",
+      "notes": "Includes competency validation",
+      "isMultiModality": false,
+      "category": "Onboarding & Competency"
+    },
+    {
+      "name": "Forms-Based Quiz Library",
+      "region": "Greater Charlotte",
+      "modality": "Echocardiography",
+      "audience": "Sonographer/Technician",
+      "activityType": "Lecture/Case-based",
+      "cadence": "Async",
+      "recordType": "Resource",
+      "organizer": "Cody Frye ",
+      "notes": "Supports onboarding and education",
+      "isMultiModality": false,
+      "category": "Onboarding & Competency"
+    },
+    {
+      "name": "Sonographer Peer Review Program",
+      "region": "Greater Charlotte",
+      "modality": "Echocardiography",
+      "audience": "Sonographer/Technician",
+      "activityType": "Discussion",
+      "cadence": "Async",
+      "recordType": "Activity",
+      "organizer": "Cody Frye",
+      "notes": "Goal 1,000 reviews/year",
+      "isMultiModality": false,
+      "category": "Quality"
+    },
+    {
+      "name": "Site-Based Case Studies / QI Reviews",
+      "region": "Greater Charlotte",
+      "modality": "Echocardiography",
+      "audience": "Multi-audience",
+      "activityType": "Discussion",
+      "cadence": "Ad hoc",
+      "recordType": "Activity",
+      "organizer": "Lead Sonographers",
+      "notes": "Locally led",
+      "isMultiModality": false,
+      "category": "Quality"
+    },
+    {
+      "name": "Sonographer Resource Page",
+      "region": "Greater Charlotte",
+      "modality": "Echocardiography",
+      "audience": "Sonographer/Technician",
+      "activityType": "Lecture/Case-based",
+      "cadence": "Async",
+      "recordType": "Resource",
+      "organizer": "Cody Frye",
+      "notes": "Parent resource",
+      "isMultiModality": false,
+      "category": "Clinical Resources"
+    },
+    {
+      "name": "Protocol Library",
+      "region": "Greater Charlotte",
+      "modality": "Echocardiography",
+      "audience": "Sonographer/Technician",
+      "activityType": "Lecture/Case-based",
+      "cadence": "Async",
+      "recordType": "Resource",
+      "organizer": "Cody Frye",
+      "notes": "Contained within resource page",
+      "isMultiModality": false,
+      "category": "Clinical Resources"
+    },
+    {
+      "name": "Quick Reference Video Library",
+      "region": "Greater Charlotte",
+      "modality": "Echocardiography",
+      "audience": "Sonographer/Technician",
+      "activityType": "Lecture/Case-based",
+      "cadence": "Async",
+      "recordType": "Resource",
+      "organizer": "Cody Frye",
+      "notes": "Contained within resource page",
+      "isMultiModality": false,
+      "category": "Education Resources"
+    },
+    {
+      "name": "Reference Deck",
+      "region": "Greater Charlotte",
+      "modality": "Echocardiography",
+      "audience": "Multi-audience",
+      "activityType": "Lecture/Case-based",
+      "cadence": "Async",
+      "recordType": "Resource",
+      "organizer": "Cody Frye",
+      "notes": "PDF on the Resource Page",
+      "isMultiModality": false,
+      "category": "Education Resources"
+    },
+    {
+      "name": "POCUS Training Module",
+      "region": "Greater Charlotte",
+      "modality": "Echocardiography",
+      "audience": "Advanced Practitioner",
+      "activityType": "Lecture/Case-based",
+      "cadence": "Async",
+      "recordType": "Resource",
+      "organizer": "Cody Frye",
+      "notes": "",
+      "isMultiModality": false,
+      "category": "Education Resources"
+    },
+    {
+      "name": "SHVI Cardiovascular Grand Rounds",
+      "region": "Greater Charlotte",
+      "modality": "Multi-modality",
+      "audience": "Multi-audience",
+      "activityType": "Lecture/Case-based",
+      "cadence": "Bi-weekly",
+      "recordType": "Activity",
+      "organizer": "Jennifer Rogers",
+      "notes": "Runs September-June; 2-3 imaging-specific session per year",
+      "isMultiModality": true,
+      "category": "Education"
+    },
+    {
+      "name": "Atrium Health Cardiovascular Grand Rounds",
+      "region": "Greater Charlotte",
+      "modality": "Multi-modality",
+      "audience": "Multi-audience",
+      "activityType": "Lecture/Case-based",
+      "cadence": "Bi-weekly",
+      "recordType": "Activity",
+      "organizer": "Jennifer Rogers",
+      "notes": "Runs September-June; 2-3 imaging-specific session per year; joint program with Winston-Salem",
+      "isMultiModality": true,
+      "category": "Education"
+    },
+    {
+      "name": "Advocate Health Cardiovascular Grand Rounds",
+      "region": "Greater Charlotte",
+      "modality": "Multi-modality",
+      "audience": "Multi-audience",
+      "activityType": "Lecture/Case-based",
+      "cadence": "Yearly",
+      "recordType": "Activity",
+      "organizer": "Jennifer Rogers",
+      "notes": "Imaging topics vary; enterprise-wide conference",
+      "isMultiModality": true,
+      "category": "Education"
+    },
+    {
+      "name": "SHVI Cardiovascular Symposium",
+      "region": "Greater Charlotte",
+      "modality": "Multi-modality",
+      "audience": "Multi-audience",
+      "activityType": "Lecture/Case-based",
+      "cadence": "Yearly",
+      "recordType": "Activity",
+      "organizer": "Jennifer Rogers",
+      "notes": "Imaging topics vary",
+      "isMultiModality": true,
+      "category": "Education"
+    },
+    {
+      "name": "The Dowd Foundation Center for Cardio-Oncology Symposium",
+      "region": "Greater Charlotte",
+      "modality": "Multi-modality",
+      "audience": "Multi-audience",
+      "activityType": "Lecture/Case-based",
+      "cadence": "Yearly",
+      "recordType": "Activity",
+      "organizer": "Jennifer Rogers",
+      "notes": "Imaging topics vary",
+      "isMultiModality": true,
+      "category": "Education"
+    },
+    {
+      "name": "Sonographer Lunch & Learn",
+      "region": "Georgia",
+      "modality": "Echocardiography",
+      "audience": "Sonographer/Technician",
+      "activityType": "Lecture/Case-based",
+      "cadence": "Monthly",
+      "recordType": "Activity",
+      "organizer": "Rebecca Phillips Navicent",
+      "notes": "Approx. 12 CME credits annually",
+      "isMultiModality": false,
+      "category": "Education"
+    },
+    {
+      "name": "Sonographer Lunch & Learn",
+      "region": "Georgia",
+      "modality": "Echocardiography",
+      "audience": "Sonographer/Technician",
+      "activityType": "Lecture/Case-based",
+      "cadence": "Bi-weekly",
+      "recordType": "Activity",
+      "organizer": " Rebecca Phillips Navicent",
+      "notes": "Rep brings lunch and educates staff over product, ie Definity",
+      "isMultiModality": false,
+      "category": "Education "
+    },
+    {
+      "name": "Sonographer CME Conf",
+      "region": "Wake Forest",
+      "modality": "Echocardiography",
+      "audience": "Sonographer/Technician",
+      "activityType": "Lecture/Case-based",
+      "cadence": "Monthly",
+      "recordType": "Activity",
+      "organizer": "Pam Burgess",
+      "notes": "Covers Wake Region",
+      "isMultiModality": false,
+      "category": "Education"
+    },
+    {
+      "name": "Annual Atrium Health Echo Symposium",
+      "region": "Wake Forest",
+      "modality": "Echocardiography",
+      "audience": "Sonographer/Technician",
+      "activityType": "Lecture/Case-based",
+      "cadence": "Yearly",
+      "recordType": "Activity",
+      "organizer": "Pam Burgess",
+      "notes": "1 day Symposium (8hrs.CME) with various speakers/topics with hands on scanning opportunities and vendor exhibit hall",
+      "isMultiModality": false,
+      "category": "Education"
+    },
+    {
+      "name": "Basic to Advanced Echo",
+      "region": "Wake Forest",
+      "modality": "Echocardiography",
+      "audience": "Multi-audience",
+      "activityType": "Lecture/Case-based",
+      "cadence": "Yearly",
+      "recordType": "Activity",
+      "organizer": "Pam Burgess",
+      "notes": "Collaboration with Mayo Clinic Location rotates between Asheville, NC & Hilton Head, SC",
+      "isMultiModality": false,
+      "category": "Education"
+    },
+    {
+      "name": "Protocol Library",
+      "region": "Greater Charlotte",
+      "modality": "Echocardiography",
+      "audience": "Sonographer/Technician",
+      "activityType": "Lecture/Case-based",
+      "cadence": "Async",
+      "recordType": "Resource",
+      "organizer": "Shelby Brown",
+      "notes": "",
+      "isMultiModality": false,
+      "category": "Clinical Resources"
+    },
+    {
+      "name": "Red Cap Quality Committee Reviews",
+      "region": "Wake Forest",
+      "modality": "Echocardiography",
+      "audience": "Multi-audience",
+      "activityType": "Discussion",
+      "cadence": "Async",
+      "recordType": "Activity",
+      "organizer": "Pam Burgess, Angie Sullivan (WF)",
+      "notes": "Collaboration with committee of four echocardiologists in Wake region, educator and manager. Engage in teachable moments/mentoring as needed. Provide close loop communication with reporter. ",
+      "isMultiModality": false,
+      "category": "Quality"
+    },
+    {
+      "name": "Case based Echo knowledge assesment",
+      "region": "Greater Charlotte",
+      "modality": "Echocardiography",
+      "audience": "Physician",
+      "activityType": "Discussion",
+      "cadence": "Monthly",
+      "recordType": "Activity",
+      "organizer": "Thomas Johnson",
+      "notes": "",
+      "isMultiModality": false,
+      "category": "Education"
+    },
+    {
+      "name": "Nuclear Fellow Case Conference",
+      "region": "Wake Forest",
+      "modality": "Nuclear",
+      "audience": "Trainees/Students",
+      "activityType": "Discussion",
+      "cadence": "Quarterly",
+      "recordType": "Activity",
+      "organizer": "Mohammed Elsadany (WF)",
+      "notes": "Modification in 2026-2027 compared to 2025 where they did monthly case conferences for nuclear + cath correlates",
+      "isMultiModality": false,
+      "category": "Education"
+    },
+    {
+      "name": "Nuclear Didactics",
+      "region": "Wake Forest",
+      "modality": "Nuclear",
+      "audience": "Trainees/Students",
+      "activityType": "Lecture/Case-based",
+      "cadence": "Quarterly",
+      "recordType": "Activity",
+      "organizer": "Mohammed Elsadany",
+      "notes": "3 talks on ischemia and 1 on non-ischemic nuclear imaging",
+      "isMultiModality": false,
+      "category": "Education"
+    },
+    {
+      "name": "CT and CMR lectures series",
+      "region": "Wake Forest",
+      "modality": "Multi-modality",
+      "audience": "Multi-audience",
+      "activityType": "Lecture/Case-based",
+      "cadence": "Weekly",
+      "recordType": "Activity",
+      "organizer": "Carolyn Park and Brandon Stacey/(Tammy Davis admin coordinator) (WF)",
+      "notes": "Application through Wake Forest GME office every summer and funding supported by cardiology dept and CME credits provided; Lecturers include cardiology and radiology faculty. Incorporated structural heart team meetings to count for CME monthly as well. Very labor intensive on carolyn's end",
+      "isMultiModality": true,
+      "category": "Education"
+    },
+    {
+      "name": "Echo lectures",
+      "region": "Wake Forest",
+      "modality": "Echocardiography",
+      "audience": "Trainees/Students",
+      "activityType": "Lecture/Case-based",
+      "cadence": "Weekly",
+      "recordType": "Activity",
+      "organizer": "Karl Richardson (WF)",
+      "notes": "This activity falls under same application as the Multimodality conference through GME office",
+      "isMultiModality": false,
+      "category": "Education"
+    },
+    {
+      "name": "Faculty Echo QI meeting",
+      "region": "Wake Forest",
+      "modality": "Echocardiography",
+      "audience": "Physician",
+      "activityType": "Lecture/Case-based",
+      "cadence": "Quarterly",
+      "recordType": "Activity",
+      "organizer": "Ahmed Elzanaty/Karl Richardson (WF)",
+      "notes": "Dr. Elzanaty has been organizing this since 2026 and makes use of our echo redcap to find cases",
+      "isMultiModality": false,
+      "category": "Education"
+    },
+    {
+      "name": "Echo Redcap Cases",
+      "region": "Wake Forest",
+      "modality": "Echocardiography",
+      "audience": "Multi-audience",
+      "activityType": "Lecture/Case-based",
+      "cadence": "Async",
+      "recordType": "Resource",
+      "organizer": "Karl Richardson/Pam Burgess/Angie Sullivan/Ahmed Elzanaty (WF)",
+      "notes": "https://redcap.link/echocaselog ",
+      "isMultiModality": false,
+      "category": "Quality"
+    },
+    {
+      "name": "Nuclear 80 hour course and ASNC board review prep",
+      "region": "Wake Forest",
+      "modality": "Nuclear",
+      "audience": "Trainees/Students",
+      "activityType": "Lecture/Case-based",
+      "cadence": "Yearly",
+      "recordType": "Resource",
+      "organizer": "Sujethra Vasu and Fellowship (Emily Maccaull fellowship coordinator) (WF)",
+      "notes": " funding is through cardiology dept",
+      "isMultiModality": false,
+      "category": "Education"
+    },
+    {
+      "name": "Nuclear cardiac lectures",
+      "region": "Wake Forest",
+      "modality": "Nuclear",
+      "audience": "Trainees/Students",
+      "activityType": "Lecture/Case-based",
+      "cadence": "Yearly",
+      "recordType": "Activity",
+      "organizer": "Radiology -Bradley Young Aleksandra Krokhmal (WF)",
+      "notes": "mostly for radiology fellows although cardiology fellows welcome to attend",
+      "isMultiModality": false,
+      "category": "Education"
+    },
+    {
+      "name": "textbooks",
+      "region": "Wake Forest",
+      "modality": "Multi-modality",
+      "audience": "Trainees/Students",
+      "activityType": "Lecture/Case-based",
+      "cadence": "Async",
+      "recordType": "Resource",
+      "organizer": "Carolyn Park (WF)",
+      "notes": "Increasingly, nobody likes to read. I would bring the textbook and open it to a chapter for the imaging fellow and it would be untouched the whole month!",
+      "isMultiModality": true,
+      "category": "Education"
+    },
+    {
+      "name": "CT case powerpoint for onboarding",
+      "region": "Wake Forest",
+      "modality": "CT",
+      "audience": "Physician",
+      "activityType": "Lecture/Case-based",
+      "cadence": "Async",
+      "recordType": "Resource",
+      "organizer": "Carolyn Park (WF)",
+      "notes": "Shared in Onedrive (advocatehealth) - very high yield cases. And then I actually reviewed the cases in person together. I used this for 3 new readers as part of onboarding and shared it with our satellite (High Point location) new-er readers and received good feedback",
+      "isMultiModality": false,
+      "category": "Education"
+    },
+    {
+      "name": "PACS Public Folder for CT and CMR cases",
+      "region": "Wake Forest",
+      "modality": "Multi-modality",
+      "audience": "Multi-audience",
+      "activityType": "Lecture/Case-based",
+      "cadence": "Async",
+      "recordType": "Resource",
+      "organizer": "Carolyn Park (WF)",
+      "notes": "Cardiac CT, Cardiac MRI, and separate CT cath correlate folders. Carolyn set up the folders in 2024 and accumulated several cases and she is the main person keeping up with it. I refer people to this folder if they are giving talks or needed to see a specific pathology",
+      "isMultiModality": true,
+      "category": "Education"
+    },
+    {
+      "name": "Cardiothoracic Imaging Lecture",
+      "region": "Wake Forest",
+      "modality": "Multi-modality",
+      "audience": "Multi-audience",
+      "activityType": "Lecture/Case-based",
+      "cadence": "Yearly",
+      "recordType": "Activity",
+      "organizer": "Carolyn Park (WF)",
+      "notes": "past year 2025-2026 the two talks carolyn gave was multimodality anatomy quiz for the CT surgery fellows and then cardiac viability",
+      "isMultiModality": true,
+      "category": "Education"
+    },
+    {
+      "name": "Lunch and Learn for cardiac APPs",
+      "region": "Wake Forest",
+      "modality": "Multi-modality",
+      "audience": "Advanced Practitioner",
+      "activityType": "Lecture/Case-based",
+      "cadence": "Quarterly",
+      "recordType": "Activity",
+      "organizer": "Jamie Dietrich (WF)",
+      "notes": "lectures are recorded on teams and powerpoints generally shared on OneDrive. For example carolyn's APP talk on ischemia imaging is shared on onedrive",
+      "isMultiModality": true,
+      "category": "Education"
+    },
+    {
+      "name": "Industry sponsored coronary CT lectures",
+      "region": "Wake Forest",
+      "modality": "CT",
+      "audience": "Multi-audience",
+      "activityType": "Lecture/Case-based",
+      "cadence": "Yearly",
+      "recordType": "Activity",
+      "organizer": "Heartflow (WF)",
+      "notes": "at wake trying to limit industry sponsored talks but occasionally useful",
+      "isMultiModality": false,
+      "category": "Education"
+    },
+    {
+      "name": "CT Tech Foundations of Advanced Cardiac Imaging",
+      "region": "Greater Charlotte",
+      "modality": "CT",
+      "audience": "Sonographer/Technician",
+      "activityType": "Lecture/Case-based",
+      "cadence": "Async",
+      "recordType": "Resource",
+      "organizer": "Brennen Johnston (GCM)",
+      "notes": "CT Tech Foundations of Advanced Cardiac Imaging - Workday",
+      "isMultiModality": false,
+      "category": "Education"
+    },
+    {
+      "name": "Advanced Cardiac Imaging Teams/Sharepoint site",
+      "region": "Greater Charlotte",
+      "modality": "Multi-modality",
+      "audience": "Sonographer/Technician",
+      "activityType": "Lecture/Case-based",
+      "cadence": "Async",
+      "recordType": "Resource",
+      "organizer": "Brennen Johnston (GCM)",
+      "notes": "",
+      "isMultiModality": true,
+      "category": "Education"
+    }
+  ];
+
+  const audOrder = ['Sonographer/Technician','Nurse','Physician','Advanced Practitioner','Trainees/Students','Multi-audience'];
+  const audShort = {
+    'Sonographer/Technician':'Sono/Tech','Nurse':'Nurse','Physician':'Physician',
+    'Advanced Practitioner':'APP','Trainees/Students':'Trainees','Multi-audience':'Multi'
+  };
+  const modOrder = ['Echocardiography','CT','CMR','Nuclear','Multi-modality'];
+  const regionOrder = ['Illinois','Wisconsin','Greater Charlotte','Wake Forest','Georgia'];
+
+  const regionalProfile = {
+    'Illinois':         { school: false, students: false, leadSono: false, educator: false, onboarding: false, noData: true },
+    'Wisconsin':        { school: false, students: false, leadSono: false, educator: false, onboarding: false, noData: true },
+    'Greater Charlotte':{ school: true,  students: true,  leadSono: true,  educator: true,  onboarding: true,  noData: false },
+    'Wake Forest':      { school: true,  students: true,  leadSono: true,  educator: true,  onboarding: true,  noData: false },
+    'Georgia':          { school: false, students: false, leadSono: true,  educator: false, onboarding: false, noData: false },
+  };
+  const profileLabels = {
+    school: 'School', students: 'Students', leadSono: 'Lead sono',
+    educator: 'Educator', onboarding: 'Onboarding',
+  };
+
+  const regionLatLon = {
+    'Illinois':[-89.4, 40.0], 'Wisconsin':[-89.7, 44.5],
+    'Greater Charlotte':[-80.84, 35.23], 'Wake Forest':[-80.24, 36.10],
+    'Georgia':[-83.4, 32.7],
+  };
+
+  let filterModality = 'All', filterAudience = 'All', filterCadence = 'All', filterActivityType = 'All', filterRecordType = 'All', selectedRegion = null;
+  let profileLens = new Set();
+  let gapModality = 'Echocardiography';
+  let gapThreshold = 0;
+  let detailsOpen = false;
+  const matchesProfileLens = (region) => {
+    for (const key of profileLens) {
+      if (!regionalProfile[region][key]) return false;
+    }
+    return true;
+  };
+  const filtered = () => activities.filter(a =>
+    (filterModality === 'All' || a.modality === filterModality) &&
+    (filterAudience === 'All' || a.audience === filterAudience) &&
+    (filterCadence === 'All' || a.cadence === filterCadence) &&
+    (filterActivityType === 'All' || a.activityType === filterActivityType) &&
+    (filterRecordType === 'All' || a.recordType === filterRecordType) &&
+    matchesProfileLens(a.region)
+  );
+
+  // ----- Map setup -----
+  const W = 900, H = 460;
+  const targetIds = new Set(['17', '55', '37', '13']);
+  const targetFill = 'rgba(0,0,0,0.07)';
+  const otherFill  = 'rgba(0,0,0,0.02)';
+  const targetStroke = 'rgba(0,0,0,0.30)';
+  const otherStroke  = 'rgba(0,0,0,0.10)';
+
+  const projection = d3.geoAlbers().rotate([85, 0]).center([0, 38]).parallels([29.5, 45.5]);
+  const path = d3.geoPath(projection);
+  const svg = d3.select('#map').append('svg')
+    .attr('viewBox', `0 0 ${W} ${H}`).attr('width', '100%').style('height', 'auto');
+  const statesG = svg.append('g').attr('id', 'states');
+  const bubblesG = svg.append('g').attr('id', 'bubbles');
+
+  const maxRegionTotal = Math.max(...regionOrder.map(rn => activities.filter(a => a.region === rn).length));
+  const radius = d3.scaleSqrt().domain([0, maxRegionTotal]).range([8, 42]);
+  let topoReady = false;
+
+  function bubblePos(name) {
+    const projected = projection(regionLatLon[name]);
+    if (!projected) return [0, 0];
+    const [x, y] = projected;
+    if (name === 'Wake Forest') return [x - 45, y - 70];
+    return [x, y];
+  }
+  function updateWfLeader(wfCount) {
+    const wfReal = projection(regionLatLon['Wake Forest']);
+    const wfPos = bubblePos('Wake Forest');
+    if (!wfReal) return;
+    const dx = wfPos[0] - wfReal[0];
+    const dy = wfPos[1] - wfReal[1];
+    const dist = Math.sqrt(dx*dx + dy*dy);
+    const r = radius(wfCount);
+    const stopDist = Math.max(8, dist - r - 2);
+    const stopX = wfReal[0] + (dx / dist) * stopDist;
+    const stopY = wfReal[1] + (dy / dist) * stopDist;
+    bubblesG.select('.wf-leader')
+      .attr('x2', stopX).attr('y2', stopY);
+  }
+  function renderBubbles() {
+    if (!topoReady) return;
+    const data = filtered();
+    const regions = regionOrder.map(name => ({
+      name, pos: bubblePos(name),
+      count: data.filter(a => a.region === name).length,
+    }));
+    const sel = bubblesG.selectAll('g.bubble-group').data(regions, d => d.name);
+    sel.exit().remove();
+    const enter = sel.enter().append('g').attr('class', 'bubble-group').style('cursor', 'pointer');
+    enter.append('circle').attr('class', 'bubble');
+    enter.append('text').attr('class', 'bubble-count');
+    enter.append('text').attr('class', 'bubble-name');
+    const merged = enter.merge(sel);
+    merged.attr('transform', d => `translate(${d.pos[0]},${d.pos[1]})`)
+      .style('opacity', d => matchesProfileLens(d.name) ? 1 : 0.28)
+      .on('click', (e, d) => selectRegion(d.name));
+    merged.select('circle.bubble')
+      .attr('r', d => Math.round(radius(d.count)))
+      .attr('fill', '#1D9E75').attr('fill-opacity', 0.58)
+      .attr('stroke', '#0F6E56')
+      .attr('stroke-width', d => selectedRegion === d.name ? 3 : 1.2);
+    merged.select('text.bubble-count')
+      .attr('text-anchor', 'middle').attr('dy', 5)
+      .attr('font-size', d => d.count >= 10 ? 16 : 13).attr('font-weight', 500)
+      .attr('fill', '#04342C').attr('pointer-events', 'none')
+      .text(d => d.count);
+    merged.select('text.bubble-name')
+      .attr('text-anchor', 'middle')
+      .attr('dy', d => d.name === 'Wake Forest'
+        ? -(Math.round(radius(d.count)) + 6)
+        : Math.round(radius(d.count)) + 16)
+      .attr('font-size', 13).attr('font-weight', 500)
+      .attr('fill', 'rgba(0,0,0,0.75)')
+      .attr('pointer-events', 'none').text(d => d.name);
+    const wfCount = regions.find(r => r.name === 'Wake Forest').count;
+    updateWfLeader(wfCount);
+    bubblesG.select('.wf-marker').raise();
+  }
+
+  d3.json('https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json').then(us => {
+    const all = topojson.feature(us, us.objects.states).features
+      .filter(f => !['02','15','72'].includes(f.id));
+    const targets = { type: 'FeatureCollection', features: all.filter(f => targetIds.has(f.id)) };
+    projection.fitExtent([[15, 15], [W-15, H-15]], targets);
+    statesG.selectAll('path').data(all).join('path')
+      .attr('d', path)
+      .attr('fill', d => targetIds.has(d.id) ? targetFill : otherFill)
+      .attr('stroke', d => targetIds.has(d.id) ? targetStroke : otherStroke)
+      .attr('stroke-width', d => targetIds.has(d.id) ? 0.9 : 0.5);
+
+    // Wake Forest leader line + true-position marker (added before bubbles so bubbles paint on top)
+    const wfReal = projection(regionLatLon['Wake Forest']);
+    bubblesG.append('line')
+      .attr('class', 'wf-leader')
+      .attr('x1', wfReal[0]).attr('y1', wfReal[1])
+      .attr('x2', wfReal[0]).attr('y2', wfReal[1])
+      .attr('stroke', '#0F6E56')
+      .attr('stroke-width', 1.2)
+      .attr('stroke-dasharray', '3 3')
+      .attr('opacity', 0.6);
+    bubblesG.append('circle')
+      .attr('class', 'wf-marker')
+      .attr('cx', wfReal[0]).attr('cy', wfReal[1])
+      .attr('r', 3.5)
+      .attr('fill', '#0F6E56')
+      .attr('stroke', 'white')
+      .attr('stroke-width', 1.2);
+
+    topoReady = true;
+    renderBubbles();
+  });
+
+  // ----- Summary metrics -----
+  function renderSummary() {
+    const d = filtered();
+    document.getElementById('summary').innerHTML = `
+      <div class="metric"><div class="metric-label">Total records</div><div class="metric-value">${d.length}</div></div>
+      <div class="metric"><div class="metric-label">Echo</div><div class="metric-value">${d.filter(a => a.modality === 'Echocardiography').length}</div></div>
+      <div class="metric"><div class="metric-label">CT</div><div class="metric-value">${d.filter(a => a.modality === 'CT').length}</div></div>
+      <div class="metric"><div class="metric-label">CMR</div><div class="metric-value">${d.filter(a => a.modality === 'CMR').length}</div></div>
+      <div class="metric"><div class="metric-label">Nuclear</div><div class="metric-value">${d.filter(a => a.modality === 'Nuclear').length}</div></div>
+      <div class="metric"><div class="metric-label">Multi</div><div class="metric-value">${d.filter(a => a.modality === 'Multi-modality').length}</div></div>
+    `;
+  }
+
+  // ----- Region cards -----
+  function renderCards() {
+    const d = filtered();
+    const html = regionOrder.map(name => {
+      const recs = d.filter(a => a.region === name);
+      const total = recs.length;
+      const echo = recs.filter(a => a.modality === 'Echocardiography').length;
+      const ct = recs.filter(a => a.modality === 'CT').length;
+      const cmr = recs.filter(a => a.modality === 'CMR').length;
+      const nuc = recs.filter(a => a.modality === 'Nuclear').length;
+      const multi = recs.filter(a => a.modality === 'Multi-modality').length;
+      const selCls = selectedRegion === name ? 'selected' : '';
+      const dimCls = matchesProfileLens(name) ? '' : 'dimmed';
+      const profile = regionalProfile[name];
+      const badges = Object.keys(profileLabels).map(k =>
+        `<span class="profile-badge${profile[k] ? '' : ' off'}">${profileLabels[k]}</span>`
+      ).join('');
+      return `<div class="region-card ${selCls} ${dimCls}" data-region="${name}">
+        <div class="region-card-name">${name}</div>
+        <div class="region-card-total">${total}</div>
+        <div class="region-card-detail">Echo ${echo} · CT ${ct} · CMR ${cmr} · Nuc ${nuc} · Multi ${multi}</div>
+        ${regionalProfile[name].noData ? '<div style="font-size:11px;color:var(--text-tertiary);margin-top:4px;">No data submitted yet</div>' : ''}
+        <div class="profile-badges">${badges}</div>
+      </div>`;
+    }).join('');
+    document.getElementById('region-cards').innerHTML = html;
+    document.querySelectorAll('.region-card').forEach(el => {
+      el.addEventListener('click', () => selectRegion(el.dataset.region));
+    });
+  }
+
+  function selectRegion(name) {
+    selectedRegion = selectedRegion === name ? null : name;
+    renderAll();
+  }
+
+  // ----- Compact gap matrix (responds to filters + threshold) -----
+  function renderGapMatrix() {
+    const d = filtered();
+    const eligible = regionOrder.filter(r => matchesProfileLens(r));
+    // Build counts table for current gapModality, current filters
+    const headerCells = audOrder.map(a => `<th>${audShort[a]}</th>`).join('');
+    let rows = '';
+    const colTotals = Object.fromEntries(audOrder.map(a => [a, 0]));
+    let grand = 0;
+    for (const r of eligible) {
+      let cells = '';
+      let rowTotal = 0;
+      for (const aud of audOrder) {
+        const n = d.filter(a => a.region === r && a.modality === gapModality && a.audience === aud).length;
+        colTotals[aud] += n;
+        rowTotal += n;
+        const cls = n <= gapThreshold ? 'gap-0' : 'gap-low';
+        cells += `<td class="${cls}">${n}</td>`;
+      }
+      grand += rowTotal;
+      rows += `<tr><th class="region">${r}</th>${cells}<td class="total-cell">${rowTotal}</td></tr>`;
+    }
+    const totalCells = audOrder.map(a => `<td class="total-cell">${colTotals[a]}</td>`).join('');
+    rows += `<tr><th class="region" style="color: var(--text-secondary); font-size:11px;">Total</th>${totalCells}<td class="total-cell">${grand}</td></tr>`;
+    const emptyNote = eligible.length === 0
+      ? `<tr><td colspan="${audOrder.length + 2}" class="details-empty">No regions match the current Profile lens.</td></tr>`
+      : rows;
+    document.getElementById('gap-grid').innerHTML = `
+      <table class="gap">
+        <thead><tr><th class="region"></th>${headerCells}<th>Total</th></tr></thead>
+        <tbody>${emptyNote}</tbody>
+      </table>
+    `;
+  }
+
+  // ----- Filtered details table -----
+  function renderDetails() {
+    const d = filtered();
+    document.getElementById('details-count').textContent =
+`${d.filter(x=>x.recordType==='Activity').length} activities · ${d.filter(x=>x.recordType==='Resource').length} resources match current filters`;
+    if (!detailsOpen) return;
+    if (d.length === 0) {
+      document.getElementById('details-table').innerHTML = `
+        <tbody><tr><td class="details-empty">Nothing matches the current filters.</td></tr></tbody>
+      `;
+      return;
+    }
+    const rows = [...d]
+      .sort((x, y) => regionOrder.indexOf(x.region) - regionOrder.indexOf(y.region) || x.modality.localeCompare(y.modality))
+      .map(g => `<tr>
+        <td>${g.name}${g.isMultiModality ? ' <span title="Multi-modality: verify with regional contact" style="cursor:help">⚠</span>' : ''}</td>
+        <td><span style="font-size:11px;padding:2px 6px;border-radius:4px;background:${g.recordType==='Resource'?'var(--amber-50)':'var(--teal-50)'};">${g.recordType}</span></td>
+        <td>${g.region}</td>
+        <td>${g.modality}</td>
+        <td>${g.audience}</td>
+        <td>${g.cadence}</td>
+        <td>${g.organizer}</td>
+        <td style="max-width:220px;font-size:11px;color:var(--text-secondary);">${g.notes}</td>
+      </tr>`).join('');
+    document.getElementById('details-table').innerHTML = `
+      <thead><tr>
+        <th>Name</th><th>Type</th><th>Region</th><th>Modality</th><th>Audience</th><th>Cadence</th><th>Organizer</th><th>Notes</th>
+      </tr></thead>
+      <tbody>${rows}</tbody>
+    `;
+  }
+
+  function renderAll() {
+    renderSummary();
+    renderCards();
+    renderBubbles();
+    renderGapMatrix();
+    renderDetails();
+  }
+
+  // ----- Filter handlers -----
+  document.querySelectorAll('.chip[data-filter]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const f = btn.dataset.filter, v = btn.dataset.value;
+      if (f === 'modality') filterModality = v;
+      if (f === 'audience') filterAudience = v;
+      if (f === 'cadence') filterCadence = v;
+      if (f === 'activityType') filterActivityType = v;
+      if (f === 'recordType') filterRecordType = v;
+      document.querySelectorAll(`.chip[data-filter="${f}"]`).forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderAll();
+    });
+  });
+
+  // ----- Profile lens handlers -----
+  document.querySelectorAll('.chip[data-profile]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const key = btn.dataset.profile;
+      if (profileLens.has(key)) { profileLens.delete(key); btn.classList.remove('active'); }
+      else { profileLens.add(key); btn.classList.add('active'); }
+      renderAll();
+    });
+  });
+
+  // ----- Modality tab handlers (gap matrix) -----
+  document.querySelectorAll('.mod-tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      gapModality = btn.dataset.mod;
+      document.querySelectorAll('.mod-tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderGapMatrix();
+    });
+  });
+
+  // ----- Threshold slider -----
+  const slider = document.getElementById('threshold-slider');
+  slider.addEventListener('input', () => {
+    gapThreshold = parseInt(slider.value);
+    document.getElementById('threshold-value').textContent = gapThreshold;
+    renderGapMatrix();
+  });
+
+  // ----- Details toggle -----
+  document.getElementById('details-toggle').addEventListener('click', () => {
+    detailsOpen = !detailsOpen;
+    document.getElementById('details-container').style.display = detailsOpen ? 'block' : 'none';
+    const titleSpan = document.querySelector('#details-toggle > span:first-child');
+    titleSpan.innerHTML = `<span class="details-arrow${detailsOpen ? ' open' : ''}">&#9656;</span>${detailsOpen ? 'Hide' : 'Show'} details`;
+    renderDetails();
+  });
+  // Set initial arrow
+  document.querySelector('#details-toggle > span:first-child').innerHTML =
+    `<span class="details-arrow">&#9656;</span>Show details`;
+
+  // ----- Initial render -----
+  renderSummary();
+  renderCards();
+  renderGapMatrix();
+  renderDetails();
+</script>
+
+</body>
+</html>
