@@ -367,7 +367,7 @@
 
 <header>
   <h1>Cardiovascular Imaging Education — Regional Dashboard</h1>
-  <div class="subtitle">Sanger Heart &amp; Vascular Institute · Advocate Health Enterprise · IL &amp; WI pending submission</div>
+  <div class="subtitle">Sanger Heart &amp; Vascular Institute · Advocate Health Enterprise · All five regions loaded</div>
 </header>
 
 <div class="section">
@@ -381,6 +381,8 @@
     <button class="chip" data-filter="modality" data-value="CMR">CMR</button>
     <button class="chip" data-filter="modality" data-value="Nuclear">Nuclear</button>
     <button class="chip" data-filter="modality" data-value="Multi-modality">Multi-modality ⚠</button>
+    <button class="chip" data-filter="modality" data-value="Research">Research</button>
+    <button class="chip" data-filter="modality" data-value="Heart Failure/Transplant">HF/Transplant</button>
   </div>
   <div class="filter-label">Audience</div>
   <div class="filter-row" id="audience-chips">
@@ -443,6 +445,8 @@
       <button class="mod-tab" data-mod="CMR">CMR</button>
       <button class="mod-tab" data-mod="Nuclear">Nuclear</button>
       <button class="mod-tab" data-mod="Multi-modality">Multi ⚠</button>
+      <button class="mod-tab" data-mod="Research">Research</button>
+      <button class="mod-tab" data-mod="Heart Failure/Transplant">HF/Transplant</button>
     </div>
     <div class="threshold-control">
       <label for="threshold-slider">Highlight gaps at or below:</label>
@@ -471,7 +475,7 @@
 </div>
 
 <footer>
-  Greater Charlotte · Wake Forest · Georgia data loaded · Illinois &amp; Wisconsin pending
+  All five regions · Greater Charlotte · Wake Forest · Georgia · Illinois · Wisconsin
 </footer>
 
 </div>
@@ -480,7 +484,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
 <script>
   // ----- Real data (from REDCap / inventory export) -----
-    const activities = [
+      const activities = [
     {
       "name": "Sonographer Lunch & Learn",
       "region": "Greater Charlotte",
@@ -1039,6 +1043,188 @@
       "category": "Education",
       "modality": "Multi-modality",
       "isMultiModality": true
+    },
+    {
+      "name": "Wednesday Morning Imaging Conference",
+      "region": "Wisconsin",
+      "modality": "Echocardiography",
+      "audience": "Multi-audience",
+      "activityType": "Lecture/Case-based",
+      "cadence": "Monthly",
+      "recordType": "Activity",
+      "organizer": "Matt Umland, Renuka Jain, MD",
+      "notes": "Third Wed of each month. SDMS CME provided",
+      "category": "Education",
+      "isMultiModality": false
+    },
+    {
+      "name": "Wednesday Morning Imaging Conference",
+      "region": "Illinois",
+      "modality": "Echocardiography",
+      "audience": "Multi-audience",
+      "activityType": "Lecture/Case-based",
+      "cadence": "Monthly",
+      "recordType": "Activity",
+      "organizer": "Matt Umland, Renuka Jain, MD",
+      "notes": "Third Wed of each month. SDMS CME provided",
+      "category": "Education",
+      "isMultiModality": false
+    },
+    {
+      "name": "Echo Lab of The Future",
+      "region": "Wisconsin",
+      "modality": "Echocardiography",
+      "audience": "Multi-audience",
+      "activityType": "Lecture/Case-based",
+      "cadence": "Yearly",
+      "recordType": "Activity",
+      "organizer": "Matt Umland, Renuka Jain, MD",
+      "notes": "Annual echo meeting collaboration with local Echo Societies. In person meeting, CME provided",
+      "category": "Education",
+      "isMultiModality": false
+    },
+    {
+      "name": "Echo Lab of The Future",
+      "region": "Illinois",
+      "modality": "Echocardiography",
+      "audience": "Multi-audience",
+      "activityType": "Lecture/Case-based",
+      "cadence": "Yearly",
+      "recordType": "Activity",
+      "organizer": "Matt Umland, Renuka Jain, MD",
+      "notes": "Annual echo meeting collaboration with local Echo Societies. In person meeting, CME provided",
+      "category": "Education",
+      "isMultiModality": false
+    },
+    {
+      "name": "New Hire Meeting",
+      "region": "Wisconsin",
+      "modality": "Echocardiography",
+      "audience": "Sonographer/Technician",
+      "activityType": "Lecture/Case-based",
+      "cadence": "Weekly",
+      "recordType": "Activity",
+      "organizer": "McKenzie Schweitzer, Lauren Howard",
+      "notes": "Frequency customized based on trends and transitions to monthly meetings. ACS conduct meetings",
+      "category": "Onboarding & Competency",
+      "isMultiModality": false
+    },
+    {
+      "name": "Sonographer I Meeting",
+      "region": "Wisconsin",
+      "modality": "Echocardiography",
+      "audience": "Sonographer/Technician",
+      "activityType": "Lecture/Case-based",
+      "cadence": "Monthly",
+      "recordType": "Activity",
+      "organizer": "McKenzie Schweitzer, Lauren Howard",
+      "notes": "Topics are driven by current Sono I group concerns/issues",
+      "category": "Education",
+      "isMultiModality": false
+    },
+    {
+      "name": "PreReader Meeting",
+      "region": "Wisconsin",
+      "modality": "Echocardiography",
+      "audience": "Sonographer/Technician",
+      "activityType": "Discussion",
+      "cadence": "Monthly",
+      "recordType": "Activity",
+      "organizer": "Denise Ignatowski",
+      "notes": "A forum for sonographers to discuss case specifics with physicians",
+      "category": "Education",
+      "isMultiModality": false
+    },
+    {
+      "name": "3D Echo Hands-On Training",
+      "region": "Wisconsin",
+      "modality": "Echocardiography",
+      "audience": "Sonographer/Technician",
+      "activityType": "Hands-on training",
+      "cadence": "Monthly",
+      "recordType": "Activity",
+      "organizer": "Denise Ignatowski",
+      "notes": "Beginner: Scan models, Mid-level: TEE 3D with saved cases, Advanced: MPR, LAAO, etc",
+      "category": "Education",
+      "isMultiModality": false
+    },
+    {
+      "name": "North Region Echocardiography Symposium",
+      "region": "Illinois",
+      "modality": "Echocardiography",
+      "audience": "Multi-audience",
+      "activityType": "Lecture/Case-based",
+      "cadence": "Yearly",
+      "recordType": "Activity",
+      "organizer": "Hetal Ghandhi, MD",
+      "notes": "Annual echo meeting in Chicagoland. Virtual meeting, CME provided",
+      "category": "Education",
+      "isMultiModality": false
+    },
+    {
+      "name": "Quarterly Echo Physician Peer Review",
+      "region": "Wisconsin",
+      "modality": "Echocardiography",
+      "audience": "Multi-audience",
+      "activityType": "Discussion",
+      "cadence": "Quarterly",
+      "recordType": "Activity",
+      "organizer": "Priscilla Wessly, MD",
+      "notes": "Quarterly discussion unless a specific case needs to be reviewed earlier",
+      "category": "Quality",
+      "isMultiModality": false
+    },
+    {
+      "name": "Weekly Fellow Noon Meeting",
+      "region": "Wisconsin",
+      "modality": "Multi-modality",
+      "audience": "Trainees/Students",
+      "activityType": "Lecture/Case-based",
+      "cadence": "Weekly",
+      "recordType": "Activity",
+      "organizer": "",
+      "notes": "1 hr weekly meeting with various physician presenters including multi-modality ",
+      "category": "Education",
+      "isMultiModality": true
+    },
+    {
+      "name": "Weekly Cardiology Research Meeting",
+      "region": "Wisconsin",
+      "modality": "Research",
+      "audience": "Multi-audience",
+      "activityType": "Lecture/Case-based",
+      "cadence": "Weekly",
+      "recordType": "Activity",
+      "organizer": "Fuad Jan, MD",
+      "notes": "Fellow updates on research projects",
+      "category": "Education",
+      "isMultiModality": false
+    },
+    {
+      "name": "Weekly Cath Conference",
+      "region": "Wisconsin",
+      "modality": "Multi-modality",
+      "audience": "Multi-audience",
+      "activityType": "Discussion",
+      "cadence": "Weekly",
+      "recordType": "Activity",
+      "organizer": "",
+      "notes": "Cath cases with some multi-modality",
+      "category": "Education",
+      "isMultiModality": true
+    },
+    {
+      "name": "Advanced Heart Failure & Transplant Noon Conference",
+      "region": "Wisconsin",
+      "modality": "Heart Failure/Transplant",
+      "audience": "Multi-audience",
+      "activityType": "Lecture/Case-based",
+      "cadence": "Weekly",
+      "recordType": "Activity",
+      "organizer": "Nasir Sulemanjee, MD",
+      "notes": "1 hr weekly meeting with various physician presenters",
+      "category": "Education",
+      "isMultiModality": false
     }
   ];
 
@@ -1047,7 +1233,7 @@
     'Sonographer/Technician':'Sono/Tech','Nurse':'Nurse','Physician':'Physician',
     'Advanced Practitioner':'APP','Trainees/Students':'Trainees','Multi-audience':'Multi'
   };
-  const modOrder = ['Echocardiography','CT','CMR','Nuclear','Multi-modality'];
+  const modOrder = ['Echocardiography','CT','CMR','Nuclear','Multi-modality','Research','Heart Failure/Transplant'];
   const regionOrder = ['Illinois','Wisconsin','Greater Charlotte','Wake Forest','Georgia'];
 
   const regionalProfile = {
